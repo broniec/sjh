@@ -56,6 +56,10 @@ def extract_company_data(company_name):
         raise 'We ran into a problem'
     else:
         clean_name = clean_name_as_list[0]
+    clean_name = clean_name.replace('&amp;', '&')
+    clean_name = clean_name.replace('&lt;', '<')
+    clean_name = clean_name.replace('&gt;', '>')
+    clean_name = clean_name.replace('&quot;;', '"')
     print(company_name + '\t' + clean_name + '\t' + score)
 
 if __name__ == '__main__':
