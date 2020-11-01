@@ -1,1 +1,4 @@
 scraping/data
+**/bin
+**/obj
+**/.vs
