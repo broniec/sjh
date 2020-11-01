@@ -173,6 +173,7 @@ app {
         position: fixed;
         top: 100px;
         left: 250px;
+        width: 1000px;
     }
 
     .main .top-row {
@@ -193,4 +194,43 @@ app {
         /* Never collapse the sidebar for wide screens */
         display: block;
     }
+
+    .slick-prev:before,
+    .slick-next:before {
+        color: rgb(42, 61, 69) !important;
+    }
+}
+
+/* Slick Carousel Styles */
+
+.slider {
+    width: 50%;
+    margin: 100px auto;
+}
+
+.slick-slide {
+    margin: 0px 20px;
+}
+
+    .slick-slide img {
+        width: 100%;
+    }
+
+.slick-prev:before,
+.slick-next:before {
+    color: black;
+}
+
+
+.slick-slide {
+    transition: all ease-in-out .3s;
+    opacity: .2;
+}
+
+.slick-active {
+    opacity: .5;
+}
+
+.slick-current {
+    opacity: 1;
 }

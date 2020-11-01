@@ -1,7 +1,19 @@
 ﻿@page "/company"
 
+@inject IJSRuntime JSRuntime
+
 <h3>Comcast</h3>
 
-@code {
+<div class="h-carousel slider">
+    <div>test item 1</div>
+    <div>test item 2</div>
+    <div>test item 3</div>
+    <div>test item 4</div>
+</div>
 
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JSRuntime.InvokeVoidAsync("initCarousel");
+    }
 }
