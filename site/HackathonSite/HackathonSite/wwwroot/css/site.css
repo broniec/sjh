@@ -4,6 +4,15 @@ html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+.top-special {
+    color: white;
+    background-color: rgb(42, 61, 69);
+}
+
+.h-carousel {
+    margin: auto !important;
+}
+
 a, .btn-link {
     color: #0366d6;
 }
@@ -165,8 +174,6 @@ app {
     .top-special {  
         width: 100vw;
         height: 100px;
-        color: white;
-        background-color: rgb(42, 61, 69);
     }
 
     .main {

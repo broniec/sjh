@@ -1,17 +1,77 @@
-﻿@page "/company"
+﻿@page "/company/{Id:int}/{Page:alpha}"
+
+@using HackathonSite.Data
 
 @inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
 
-<h3>Comcast</h3>
-
-<div class="h-carousel slider">
-    <div>Diversity Score</div>
-    <div>ERGs</div>
-    <div>D&amp;I Events</div>
-    <div>Salaries</div>
+<div class="top-special">
+    <div class="px-4" style="margin-left: 2em; margin-right: 2em;">
+        @if (Company != null)
+        {
+            <h3>@Company.Name</h3>
+            <h4>@Company.Location</h4>
+        }
+    </div>
 </div>
 
-@code {
+<div class="sidebar">
+    <NavMenu />
+</div>
+
+<div class="main">
+    <div class="content px-4">
+        <div class="h-carousel slider">
+            <div>Diversity Score</div>
+            <div>ERGs</div>
+            <div>D&amp;I Events</div>
+            <div>Salaries</div>
+        </div>
+
+        <br />
+        <br />
+        <br />
+
+        <div>
+            <h4>
+                @Page
+            </h4>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc fringilla dignissim nisl sit amet congue. Nulla efficitur ante ligula, nec maximus sem lacinia interdum. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec eu mi eu lectus sollicitudin molestie vitae eu erat. Pellentesque pulvinar commodo dapibus. Cras urna felis, auctor vitae suscipit ut, ultrices vel tellus. Nunc urna orci, vulputate sed leo eu, porttitor hendrerit augue.
+            </p>
+        </div>
+    </div>
+</div>
+
+
+@code
+{
+    [ParameterAttribute]
+    public int Id { get; set; }
+
+    [ParameterAttribute]
+    public string Page { get; set; }
+
+    public Company Company { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (Id == 0)
+        {
+            Company = new Company
+            {
+                Id = 0,
+                Name = "COMCAST CORPORATION",
+                Location = "PHILADELPHIA, PA"
+            };
+        }
+
+        if (Page == null)
+        {
+            Page = "diversity";
+        }
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await JSRuntime.InvokeVoidAsync("initCarousel");
