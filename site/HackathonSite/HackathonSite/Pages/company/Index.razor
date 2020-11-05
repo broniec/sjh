@@ -1,4 +1,4 @@
-﻿@page "/company/{Id:int}/{Page:alpha}"
+﻿@page "/company/{Id:int}"
 
 @using HackathonSite.Data
 
@@ -49,13 +49,15 @@
     [ParameterAttribute]
     public int Id { get; set; }
 
-    [ParameterAttribute]
     public string Page { get; set; }
 
     public Company Company { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
+        // default option
+        UpdateContent(0);
+        // before I worry about database
         if (Id == 0)
         {
             Company = new Company
@@ -65,15 +67,36 @@
                 Location = "PHILADELPHIA, PA"
             };
         }
-
-        if (Page == null)
-        {
-            Page = "diversity";
-        }
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        var dotNetReference = DotNetObjectReference.Create(this);
+        await JSRuntime.InvokeVoidAsync("cacheReference", dotNetReference);
+
         await JSRuntime.InvokeVoidAsync("initCarousel");
+    }
+
+    [JSInvokable("UpdateContent")]
+    public async Task UpdateContent(int currentSlide)
+    {
+        if (currentSlide == 0)
+        {
+            Page = "Diversity";
+        }
+        else if (currentSlide == 1)
+        {
+            Page = "ERGs";
+        }
+        else if (currentSlide == 2)
+        {
+            Page = "D&I Events";
+        }
+        else if (currentSlide == 3)
+        {
+            Page = "Salaries";
+        }
+
+        StateHasChanged();
     }
 }
