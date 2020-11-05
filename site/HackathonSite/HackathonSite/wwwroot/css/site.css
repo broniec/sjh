@@ -4,9 +4,18 @@ html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+body {
+    overflow-y: scroll;
+}
+
 .top-special {
     color: white;
     background-color: rgb(42, 61, 69);
+}
+
+.slick-prev:before,
+.slick-next:before {
+    color: rgb(42, 61, 69) !important;
 }
 
 .h-carousel {
@@ -15,6 +24,14 @@ html, body {
 
 a, .btn-link {
     color: #0366d6;
+}
+
+.nav-link {
+    user-select: none;
+}
+
+.nav-link:hover {
+    cursor: pointer;
 }
 
 .btn-primary {
@@ -200,11 +217,6 @@ app {
     .sidebar .collapse {
         /* Never collapse the sidebar for wide screens */
         display: block;
-    }
-
-    .slick-prev:before,
-    .slick-next:before {
-        color: rgb(42, 61, 69) !important;
     }
 }
 
