@@ -43,7 +43,6 @@
     </div>
 </div>
 
-
 @code
 {
     [ParameterAttribute]
@@ -56,7 +55,7 @@
     protected override async Task OnInitializedAsync()
     {
         // default option
-        UpdateContent(0);
+        await UpdateContent(0);
         // before I worry about database
         if (Id == 0)
         {

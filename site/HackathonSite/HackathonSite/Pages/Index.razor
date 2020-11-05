@@ -1,1 +1,37 @@
 ﻿@page "/"
+
+<div class="top-special">
+    <div class="px-4" style="margin: 0.5em 4em 0em 4em;">
+        <h3>Project TWA</h3>
+    </div>
+</div>
+
+<div class="sidebar">
+    <div class="top-row pl-4 navbar navbar-dark">
+        <a class="navbar-brand" href="/">Project TWA</a>
+        <button class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="main" style="margin: 2em;">
+    <p>
+        Hello!
+    </p>
+    <p>
+        <a href="/company/0">Comcast</a>
+    </p>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}
+
