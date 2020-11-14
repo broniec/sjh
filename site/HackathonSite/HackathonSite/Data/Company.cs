@@ -8,8 +8,14 @@
         // maybe we ditch this...
         public string LogoLink { get; set; }
 
-        public string CalendarLink { get; set; }
+        // Diversity Section
+        public string DiversityScore { get; set; }
         public string DiversityText { get; set; }
+
+        // D&I Event Section
+        public string CalendarLink { get; set; }
+
+        // ERG ???
         public string ERGText { get; set; }
     }
 }

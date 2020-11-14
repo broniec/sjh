@@ -1,4 +1,5 @@
 scraping/data
+ignore
 **/bin
 **/obj
 **/.vs

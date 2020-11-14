@@ -184,19 +184,19 @@ app {
 
     .sidebar {
         width: 250px;
-        height: calc(100vh - 100px);
+        height: calc(100vh - 90px);
         position: fixed;
-        top: 100px;
+        top: 90px;
     }
 
     .top-special {  
         width: 100vw;
-        height: 100px;
+        height: 90px;
     }
 
     .main {
-        position: fixed;
-        top: 100px;
+        position: absolute;
+        top: 90px;
         left: 250px;
         width: calc(100vw - 250px);
     }

@@ -45,7 +45,7 @@ function triggerX(currentSlide) {
     $('.h-carousel').slick('goTo', currentSlide);
 
     if (currentSlide === 0) {
-        console.log('diversity score');
+        console.log('diversity info');
         $('#link-diversity').addClass('active');
     } else if (currentSlide === 1) {
         console.log('erg');
