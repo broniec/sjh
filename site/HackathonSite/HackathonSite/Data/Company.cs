@@ -9,9 +9,10 @@
         public string LogoLink { get; set; }
 
         // Diversity Section
-        public string DiversityScore { get; set; }
+        public string GenderScore { get; set; }
         public string DiversityText { get; set; }
-        public string DiversityLink { get; set; }
+        public string DiversityReportLink { get; set; }
+        public string EthnicityScore { get; set; }
 
         // D&I Event Section
         public string CalendarLink { get; set; }
