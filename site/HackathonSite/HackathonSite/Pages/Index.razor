@@ -1,5 +1,7 @@
 ﻿@page "/"
 
+@inject NavigationManager NavigationManager
+
 <div class="top-special" style="height: 250px;">
     <div class="px-4" style="margin: 0.5em 4em 0em 4em; display: flex; align-items: center; justify-content: center;">
         <div style="text-align: center;">
@@ -26,7 +28,11 @@
                     <div>
                         DISCOVER WHAT COMPANIES ARE DOING FOR DIVERSITY AND INCLUSION
                     </div>
-                    <input class="form-control" />
+                    <select @onchange="OpenCompany" class="form-control">
+                        <option value="" selected></option>
+                        <option value="0">Comcast</option>
+                        <option value="1">Microsoft</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -52,11 +58,13 @@
     </div>
 </div>
 
-<p>
-    Hello!
-</p>
-<p>
-    <a href="/company/0">Comcast</a>
-    <br />
-    <a href="/company/1">Microsoft</a>
-</p>
+@code
+{
+    public void OpenCompany(ChangeEventArgs args)
+    {
+        if (args.Value != null && !string.IsNullOrWhiteSpace(args.Value.ToString()))
+        {
+            NavigationManager.NavigateTo($"/company/{args.Value.ToString()}");
+        }
+    }
+}
