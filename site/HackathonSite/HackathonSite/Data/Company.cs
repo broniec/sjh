@@ -11,6 +11,7 @@
         // Diversity Section
         public string DiversityScore { get; set; }
         public string DiversityText { get; set; }
+        public string DiversityLink { get; set; }
 
         // D&I Event Section
         public string CalendarLink { get; set; }
