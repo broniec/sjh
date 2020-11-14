@@ -1,41 +1,62 @@
 ﻿@page "/"
 
-<div class="top-special">
-    <div class="px-4" style="margin: 0.5em 4em 0em 4em;">
-        <h3>GetPro</h3>
+<div class="top-special" style="height: 250px;">
+    <div class="px-4" style="margin: 0.5em 4em 0em 4em; display: flex; align-items: center; justify-content: center;">
+        <div style="text-align: center;">
+            <h1 style="font-size: 8em; margin-bottom: 0; color: #f5cb5c;">GET<b>PRO</b></h1>
+            <div style="font-size: 3em;">GET INFO. GET <b>PRO</b>.</div>
+        </div>
     </div>
 </div>
 
-<div class="sidebar">
-    <div class="top-row pl-4 navbar navbar-dark">
-        <a class="navbar-brand" href="/">
-            <span class="oi oi-home" aria-hidden="true"></span> GetPro
-        </a>
-        <button class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+<div class="container-fluid" style="height: calc(100vh - 250px); padding: 0;">
+    <div class="row" style="height: 100%">
+        <div class="col-6" style="padding: 0;">
+            <div style="
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        background: linear-gradient( rgba(245, 203, 92, 0.75), rgba(245, 203, 92, 0.75) ), url(/home-school.jpeg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;">
+                <div style="color: rgb(42, 61, 69);">
+                    <h2 style="font-weight: bold; font-size: 3rem;">EXPLORE COMPANIES</h2>
+                    <div>
+                        DISCOVER WHAT COMPANIES ARE DOING FOR DIVERSITY AND INCLUSION
+                    </div>
+                    <input class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="col-6" style="padding: 0;">
+            <div style="
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        background: linear-gradient( rgba(42, 61, 69, 0.75), rgba(42, 61, 69, 0.75) ), url(/home-school.jpeg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;">
+                <div style="color: #f5cb5c">
+                    <h2 style="font-weight: bold; font-size: 3rem;">EXPLORE COLLEGES</h2>
+                    <div>
+                        SEE WHAT COLLEGES ARE DOING FOR DIVERSITY AND INCLUSION
+                    </div>
+                    <input class="form-control" />
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="main" style="margin: 2em;">
-    <p>
-        Hello!
-    </p>
-    <p>
-        <a href="/company/0">Comcast</a>
-        <br />
-        <a href="/company/1">Microsoft</a>
-    </p>
-</div>
-
-@code {
-    private bool collapseNavMenu = true;
-
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-}
-
+<p>
+    Hello!
+</p>
+<p>
+    <a href="/company/0">Comcast</a>
+    <br />
+    <a href="/company/1">Microsoft</a>
+</p>

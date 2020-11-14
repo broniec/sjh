@@ -1,7 +1,18 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
+@font-face {
+    font-family: GlacialIndifference;
+    src: url('/fonts/glacialindifference-regular.otf');
+}
+
+@font-face {
+    font-family: GlacialIndifference;
+    src: url('/fonts/glacialindifference-bold.otf');
+    font-weight: bold;
+}
+
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: GlacialIndifference, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 body {
@@ -183,7 +194,7 @@ app {
 
 @media (min-width: 768px) {
     app {
-        flex-direction: row;
+/*        flex-direction: row;*/
     }
 
     .sidebar {
@@ -236,9 +247,9 @@ app {
     margin: 0px 20px;
 }
 
-    .slick-slide img {
-        width: 100%;
-    }
+.slick-slide img {
+    width: 100%;
+}
 
 .slick-prev:before,
 .slick-next:before {
