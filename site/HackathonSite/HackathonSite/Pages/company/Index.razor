@@ -20,26 +20,48 @@
 </div>
 
 <div class="main">
-    <div class="content px-4">
-        <div class="h-carousel slider">
-            <div>Diversity Score</div>
-            <div>ERGs</div>
-            <div>D&amp;I Events</div>
-            <div>Salaries</div>
-        </div>
+    <br />
 
-        <br />
-        <br />
-        <br />
+    <div class="h-carousel slider">
+        <div>Diversity Score</div>
+        <div>ERGs</div>
+        <div>D&amp;I Events</div>
+        <div>Salaries</div>
+    </div>
 
-        <div>
-            <h4>
-                @Page
-            </h4>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc fringilla dignissim nisl sit amet congue. Nulla efficitur ante ligula, nec maximus sem lacinia interdum. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec eu mi eu lectus sollicitudin molestie vitae eu erat. Pellentesque pulvinar commodo dapibus. Cras urna felis, auctor vitae suscipit ut, ultrices vel tellus. Nunc urna orci, vulputate sed leo eu, porttitor hendrerit augue.
-            </p>
-        </div>
+    <br />
+    <br />
+
+    <div style="background-color: #f5cb5c; padding: 1.5em;">
+        <h1>
+            @Page
+        </h1>
+    </div>
+
+    <br />
+
+    <div hidden="@ShowDiversity">
+        <p>
+            @Company.DiversityText
+        </p>
+    </div>
+
+    <div hidden="@ShowERG">
+        <p>
+            @Company.ERGText
+        </p>
+    </div>
+
+    <div hidden="@(!ShowEvents)">
+        <p>
+            <iframe src="https://calendar.google.com/calendar/embed?src=@(Company.CalendarLink)%40group.calendar.google.com&ctz=America%2FNew_York" style="border: 0; width: 100%" height="300" frameborder="0" scrolling="no"></iframe>
+        </p>
+    </div>
+
+    <div hidden="@ShowSalaries">
+        <p>
+
+        </p>
     </div>
 </div>
 
@@ -49,6 +71,12 @@
     public int Id { get; set; }
 
     public string Page { get; set; }
+    public string Text { get; set; }
+
+    public bool ShowDiversity { get; set; }
+    public bool ShowERG { get; set; }
+    public bool ShowEvents { get; set; }
+    public bool ShowSalaries { get; set; }
 
     public Company Company { get; set; }
 
@@ -63,7 +91,18 @@
             {
                 Id = 0,
                 Name = "COMCAST CORPORATION",
-                Location = "PHILADELPHIA, PA"
+                Location = "PHILADELPHIA, PA",
+                CalendarLink = "51knhc057dqa5e9urjbto6b8t4"
+            };
+        }
+        else if (Id == 1)
+        {
+            Company = new Company
+            {
+                Id = 1,
+                Name = "MICROSOFT CORPORATION",
+                Location = "REDMOND, WA",
+                CalendarLink = "fe2gdontdjfi5018rm40kf8h3o"
             };
         }
     }
@@ -79,21 +118,34 @@
     [JSInvokable("UpdateContent")]
     public async Task UpdateContent(int currentSlide)
     {
+        ShowDiversity = false;
+        ShowERG = false;
+        ShowEvents = false;
+        ShowSalaries = false;
+
         if (currentSlide == 0)
         {
+            ShowDiversity = true;
             Page = "Diversity Score";
+            Text = "blah blah diversity blah";
         }
         else if (currentSlide == 1)
         {
+            ShowERG = true;
             Page = "ERGs";
+            Text = "blah blah erg something something blah";
         }
         else if (currentSlide == 2)
         {
+            ShowEvents = true;
             Page = "D&I Events";
+            //Text = "o crap don't forget about that calendar thing I was supposed to do";
         }
         else if (currentSlide == 3)
         {
+            ShowSalaries = true;
             Page = "Salaries";
+            Text = "gsflsdjf lsdfjpsd fjosdjf osd fsdof jsdfsdj";
         }
 
         StateHasChanged();
