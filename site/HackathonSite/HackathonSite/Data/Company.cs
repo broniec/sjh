@@ -17,7 +17,11 @@
         // D&I Event Section
         public string CalendarLink { get; set; }
 
-        // ERG ???
+        // ERG
         public string ERGText { get; set; }
+
+        // Salary Section
+        public string DemoJob { get; set; }
+        public string DemoJobSalary { get; set; }
     }
 }
