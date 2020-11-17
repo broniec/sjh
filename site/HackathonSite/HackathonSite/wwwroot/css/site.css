@@ -11,6 +11,10 @@
     font-weight: bold;
 }
 
+.table td {
+    border-top: 0 !important;
+}
+
 html, body {
     font-family: GlacialIndifference, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }

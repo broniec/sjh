@@ -30,10 +30,18 @@
     <br />
 
     <div class="h-carousel slider">
-        <div>Diversity Info</div>
-        <div>ERGs</div>
-        <div>D&amp;I Events</div>
-        <div>Salaries</div>
+        <div style="width: 150px; height: 100px;">
+            <img src="https://i.ibb.co/PcBBqdB/Diversity-Score2.png" style="height: 100%; width: 100%;" />
+        </div>
+        <div style="width: 150px; height: 100px;">
+            <img src="https://i.ibb.co/GCYQb8N/ERGS.png" style="height: 100%; width: 100%;" />
+        </div>
+        <div style="width: 150px; height: 100px;">
+            <img src="https://i.ibb.co/CHtGS84/D-I-Events2.png" style="height: 100%; width: 100%;" />
+        </div>
+        <div style="width: 150px; height: 100px;">
+            <img src="https://i.ibb.co/9t5547m/salaries2.png" style="height: 100%; width: 100%;" />
+        </div>
     </div>
 
     <br />
@@ -65,43 +73,75 @@
         <div class="row">
             <div class="col-3">
                 <h5 style="font-weight: bold;">Gender Score</h5>
-                <p style="font-weight: bold; font-size: 80px;">@Company.GenderScore</p>
+                <p style="font-weight: bold; font-size: 100px;">@Company.GenderScore</p>
             </div>
             <div class="col-3">
                 <h5 style="font-weight: bold;">Gender Breakdown (2019)</h5>
-                <p>insert graph here</p>
+                <canvas id="currentYearGenderBreakdown" style="width: 100%; height: 160px;"></canvas>
             </div>
             <div class="col-3">
                 <h5 style="font-weight: bold;">Gender Breakdown (2017 - 2019)</h5>
-                <p>insert graph here</p>
+                <canvas id="historicGenderBreakdown" style="width: 100%; height: 160px;"></canvas>
             </div>
             <div class="col-3">
                 <h5 style="font-weight: bold;">Legend</h5>
-                <p>this is a test</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-3">
-                <h5 style="font-weight: bold;">Ethnicity Score</h5>
-                <p style="font-weight: bold; font-size: 80px;">@Company.EthnicityScore</p>
-            </div>
-            <div class="col-3">
-                <h5 style="font-weight: bold;">Race / Ethnicity Breakdown (2019)</h5>
-                <p>insert graph here</p>
-            </div>
-            <div class="col-3">
-                <h5 style="font-weight: bold;">Race / Ethnicity Breakdown (2017 - 2019)</h5>
-                <p>insert graph here</p>
-            </div>
-            <div class="col-3">
-                <h5 style="font-weight: bold;">Legend</h5>
-                <p>this is a test</p>
+                <div>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%;">
+                                    <span style="height: 24px; width: 24px; background-color: rgb(42, 61, 69); display: block;"></span>
+                                </td>
+                                <td>Female</td>
+                            </tr>
+                            <tr>
+                                <td style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%;">
+                                    <span style="height: 24px; width: 24px; background-color: rgb(232, 237, 223); display: block;"></span>
+                                </td>
+                                <td>Male</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <br />
-        <div>
-
+        <div class="row">
+            <div class="col-3">
+                <h5 style="font-weight: bold;">Ethnicity Score</h5>
+                <p style="font-weight: bold; font-size: 100px;">@Company.EthnicityScore</p>
+            </div>
+            <div class="col-3">
+                <h5 style="font-weight: bold;">Race / Ethnicity Breakdown (2019)</h5>
+                <canvas id="currentYearEthnicityBreakdown" style="width: 100%; height: 160px;"></canvas>
+            </div>
+            <div class="col-3">
+                <h5 style="font-weight: bold;">Race / Ethnicity Breakdown (2017 - 2019)</h5>
+                <canvas id="historicEthnicityBreakdown" style="width: 100%; height: 160px;"></canvas>
+            </div>
+            <div class="col-3">
+                <h5 style="font-weight: bold;">Legend</h5>
+                <div>
+                    <table class="table">
+                        <tbody>
+                            @if (Stats != null)
+                            {
+                                @foreach (var stat in Stats.Where(x => x.Group != "Men" && x.Group != "Women"))
+                                {
+                                    <tr>
+                                        <td style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%;">
+                                            <span style="height: 24px; width: 24px; background-color: rgb(42, 61, 69); display: block;"></span>
+                                        </td>
+                                        <td>@stat.Group</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
+        <br />
     </div>
 
     <div hidden="@(!ShowERG)">
@@ -320,6 +360,7 @@
     }
 
     public Company Company { get; set; }
+    public List<DiversityStat> Stats { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -373,24 +414,25 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        // carousel stuff
         var dotNetReference = DotNetObjectReference.Create(this);
         await JSRuntime.InvokeVoidAsync("cacheReference", dotNetReference);
-
         await JSRuntime.InvokeVoidAsync("initCarousel");
+
+        // download stats
+        Stats = await HContext.DiversityStats
+            .Where(o => o.CompanyId == Id)
+            .ToListAsync();
+        // chart stuff
+        await JSRuntime.InvokeVoidAsync("initCharts", Stats);
     }
 
     public void UpdateSalaryInformation()
     {
-        if (Company != null)
-        {
-            Console.WriteLine(Company.DemoJob);
-        }
-        Console.WriteLine(salaryGenderFilter);
-        Console.WriteLine(salaryEthnicityFilter);
-        Console.WriteLine(salaryLocationFilter);
+        string jobSearchString = Company == null ? null : Company.DemoJob;
 
         CurrentSalaryItem = HContext.SalaryItems
-            .Where(o => o.Job == Company.DemoJob)
+            .Where(o => o.Job == jobSearchString)
             .Where(o => o.Gender == salaryGenderFilter)
             .Where(o => o.Ethnicity == salaryEthnicityFilter)
             .Where(o => o.State == SalaryLocationFilter)

@@ -9,6 +9,7 @@ function initCarousel() {
             dots: true,
             infinite: true,
             centerMode: true,
+            variableWidth: true,
             slidesToShow: 3
         });
         // register change event
@@ -60,4 +61,110 @@ function triggerX(currentSlide) {
 
     // call .net back through reference shuffling
     reference.invokeMethodAsync('UpdateContent', currentSlide);
+}
+
+function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+}
+
+let chartsInitialized = false;
+
+function initCharts(data) {
+    if (true) {
+        const ethnicGroups = data.filter(x => x.group !== "Men" && x.group !== "Women").map(x => x.group).filter(onlyUnique);   
+        const genderLabels = ['Male', 'Female'];
+        const yearLabels = data.map(x => x.year).filter(onlyUnique).sort();
+        const standardOptions = {
+            legend: {
+                display: false
+            },
+        };
+        const lineGraphOptions = {
+            legend: {
+                display: false
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+
+        // Current Year Gender
+        const currentYearFemaleAmount = data.filter(x => x.group === "Women" && x.year === 2019).map(x => x.percentage);
+        const data1 = {
+            datasets: [{
+                data: [100 - currentYearFemaleAmount, currentYearFemaleAmount],
+                backgroundColor: [
+                    'rgb(232, 237, 223)',
+                    'rgb(42, 61, 69)'
+                ]
+            }],
+            labels: genderLabels
+        };
+        const ctx1 = document.getElementById('currentYearGenderBreakdown').getContext('2d');
+        new Chart(ctx1, {
+            type: 'doughnut',
+            data: data1,
+            options: standardOptions
+        });
+        // Historic Gender
+        const historicFemaleAmount = data.filter(x => x.group === "Women").map(x => x.percentage);
+        const data2 = {
+            datasets: [{
+                data: historicFemaleAmount,
+                borderColor: [
+                    'rgb(42, 61, 69)'
+                ],
+                fill: false,
+                label: 'Women'
+            }],
+            labels: yearLabels
+        };
+        const ctx2 = document.getElementById('historicGenderBreakdown').getContext('2d');
+        new Chart(ctx2, {
+            type: 'line',
+            data: data2,
+            options: lineGraphOptions
+        });
+        // Current Year Ethnicity
+        const currentYearEthnicGroups = data.filter(x => x.group !== "Men" && x.group !== "Women" && x.year === 2019).map(x => x.percentage);
+        const data3 = {
+            datasets: [{
+                data: currentYearEthnicGroups,
+                backgroundColor: [
+                    'rgb(232, 237, 223)',
+                    'rgb(42, 61, 69)'
+                ]
+            }],
+            labels: ethnicGroups
+        };
+        const ctx3 = document.getElementById('currentYearEthnicityBreakdown').getContext('2d');
+        new Chart(ctx3, {
+            type: 'doughnut',
+            data: data3,
+            options: standardOptions
+        });
+        // Historic Ethnicity
+        const data4 = {
+            datasets: [{
+                data: [10, 20],
+                backgroundColor: [
+                    'rgb(232, 237, 223)',
+                    'rgb(42, 61, 69)'
+                ]
+            }],
+            labels: ethnicGroups
+        };
+        const ctx4 = document.getElementById('historicEthnicityBreakdown').getContext('2d');
+        new Chart(ctx4, {
+            type: 'line',
+            data: data4,
+            options: lineGraphOptions
+        });
+
+        chartsInitialized = true;
+    }
 }
