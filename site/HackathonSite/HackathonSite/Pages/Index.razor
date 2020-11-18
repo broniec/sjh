@@ -1,5 +1,7 @@
 ﻿@page "/"
 
+@inject HContext HContext
+@inject IJSRuntime JSRuntime
 @inject NavigationManager NavigationManager
 
 <div class="top-special" style="height: 250px;">
@@ -28,10 +30,15 @@
                     <div>
                         DISCOVER WHAT COMPANIES ARE DOING FOR DIVERSITY AND INCLUSION
                     </div>
-                    <select @onchange="OpenCompany" class="form-control">
+                    <select id="companySelect" onchange="openCompany();" class="form-control">
                         <option value="" selected></option>
-                        <option value="0">Comcast</option>
-                        <option value="1">Microsoft</option>
+                        @if (SearchCompanies != null)
+                        {
+                            @foreach (var company in SearchCompanies)
+                            {
+                                <option value="@company.LinkId">@company.Name</option>
+                            }
+                        }
                     </select>
                 </div>
             </div>
@@ -51,7 +58,16 @@
                     <div>
                         SEE WHAT COLLEGES ARE DOING FOR DIVERSITY AND INCLUSION
                     </div>
-                    <input class="form-control" />
+                    <select id="schoolSelect" onchange="openSchool();" class="form-control">
+                        <option value="" selected></option>
+                        @if (SearchSchools != null)
+                        {
+                            @foreach (var school in SearchSchools)
+                            {
+                                <option value="@school.LinkId">@school.Name</option>
+                            }
+                        }
+                    </select>
                 </div>
             </div>
         </div>
@@ -60,11 +76,21 @@
 
 @code
 {
-    public void OpenCompany(ChangeEventArgs args)
+    private bool FirstPass = true;
+
+    public List<SearchCompany> SearchCompanies { get; set; }
+    public List<SearchSchool> SearchSchools { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (args.Value != null && !string.IsNullOrWhiteSpace(args.Value.ToString()))
+
+        if (FirstPass)
         {
-            NavigationManager.NavigateTo($"/company/{args.Value.ToString()}");
+            FirstPass = false;
+            SearchCompanies = await HContext.SearchCompanies.ToListAsync();
+            SearchSchools = await HContext.SearchSchools.ToListAsync();
+            StateHasChanged();
+            await JSRuntime.InvokeVoidAsync("createSelectTwo");
         }
     }
 }

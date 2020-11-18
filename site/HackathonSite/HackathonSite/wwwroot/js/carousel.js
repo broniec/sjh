@@ -175,3 +175,22 @@ function initCharts(data, ethnicityColors) {
         options: lineGraphOptions
     });
 }
+
+function createSelectTwo() {
+    $('#companySelect').select2();
+    $('#schoolSelect').select2();
+}
+
+function openCompany() {
+    const newValue = document.getElementById("companySelect").value;
+    if (newValue && !isNaN(newValue)) {
+        window.location = '/company/' + newValue;
+    }
+}
+
+function openSchool() {
+    const newValue = document.getElementById("schoolSelect").value;
+    if (newValue && !isNaN(newValue)) {
+        window.location = '/company/' + newValue;
+    }
+}

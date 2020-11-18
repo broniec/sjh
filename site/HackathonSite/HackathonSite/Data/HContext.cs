@@ -11,6 +11,9 @@ namespace HackathonSite.Data
         public DbSet<SalaryItem> SalaryItems { get; set; }
         public DbSet<DiversityStat> DiversityStats { get; set; }
 
+        public DbSet<SearchCompany> SearchCompanies { get; set; }
+        public DbSet<SearchSchool> SearchSchools { get; set; }
+
         public HContext(DbContextOptions<HContext> options)
         : base(options)
         { }
