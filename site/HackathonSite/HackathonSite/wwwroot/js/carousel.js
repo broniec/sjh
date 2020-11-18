@@ -153,13 +153,15 @@ function initCharts(data, ethnicityColors) {
     const historicEthnicityAmountGrouped = groupBy(historicEthnicityAmountTemp, 'group')
     const historicEthnicityAmountFormatted = [];
 
+    let counter = 0;
     for (let x in historicEthnicityAmountGrouped) {
         historicEthnicityAmountFormatted.push({
             data: historicEthnicityAmountGrouped[x].map(y => y.percentage),
-            borderColor: 'rgb(255, 255, 0)',
+            borderColor: ethnicityColors[counter],
             fill: false,
             label: x
         });
+        ++counter;
     }
 
     const data4 = {
