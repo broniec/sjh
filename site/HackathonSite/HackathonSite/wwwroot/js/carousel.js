@@ -67,7 +67,7 @@ function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
 }
 
-function initCharts(data) {
+function initCharts(data, ethnicityColors) {
     const ethnicGroups = data.filter(x => x.group !== "Men" && x.group !== "Women").map(x => x.group).filter(onlyUnique);   
     const genderLabels = ['Male', 'Female'];
     const yearLabels = data.map(x => x.year).filter(onlyUnique).sort();
@@ -131,10 +131,7 @@ function initCharts(data) {
     const data3 = {
         datasets: [{
             data: currentYearEthnicGroups,
-            backgroundColor: [
-                'rgb(232, 237, 223)',
-                'rgb(42, 61, 69)'
-            ]
+            backgroundColor: ethnicityColors
         }],
         labels: ethnicGroups
     };

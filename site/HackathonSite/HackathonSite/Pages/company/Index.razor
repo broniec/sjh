@@ -123,17 +123,20 @@
                 <h5 style="font-weight: bold;">Legend</h5>
                 <div>
                     <table class="table">
-                        <tbody>
+                        <tbody id="ethnicity-filter">
                             @if (Stats != null)
                             {
-                                @foreach (var stat in Stats.Where(x => x.Group != "Men" && x.Group != "Women"))
+                                @foreach (var stat in Stats.Where(x => x.Group != "Men" && x.Group != "Women").Select(o => o.Group).Distinct())
                                 {
                                     <tr>
                                         <td style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%;">
-                                            <span style="height: 24px; width: 24px; background-color: rgb(42, 61, 69); display: block;"></span>
+                                            <span style="height: 24px; width: 24px; background-color: @ethnicityColors[counter]; display: block;"></span>
                                         </td>
-                                        <td>@stat.Group</td>
+                                        <td>@stat</td>
                                     </tr>
+                                    {
+                                        counter += 1;
+                                    }
                                 }
                             }
                         </tbody>
@@ -300,6 +303,9 @@
     private string salaryEthnicityFilter;
     private string salaryLocationFilter;
 
+    private int counter = 0;
+    private string[] ethnicityColors = { "rgb(42, 61, 69)", "rgb(92, 91, 67)", "rgb(141, 120, 64)", "rgb(190, 170, 111)", "rgb(239, 220, 158)", "rgb(236, 229, 191)", "rgb(232, 237, 223)" };
+
     public string SalaryGenderFilter
     {
         get
@@ -362,8 +368,11 @@
     public Company Company { get; set; }
     public List<DiversityStat> Stats { get; set; }
 
+    private bool FirstPass = true;
+
     protected override async Task OnInitializedAsync()
     {
+        FirstPass = true;
         // default option
         await UpdateContent(0);
         // before I worry about database
@@ -419,12 +428,17 @@
         await JSRuntime.InvokeVoidAsync("cacheReference", dotNetReference);
         await JSRuntime.InvokeVoidAsync("initCarousel");
 
-        // download stats
-        Stats = await HContext.DiversityStats
-            .Where(o => o.CompanyId == Id)
-            .ToListAsync();
-        // chart stuff
-        await JSRuntime.InvokeVoidAsync("initCharts", Stats);
+        if (FirstPass)
+        {
+            FirstPass = false;
+            // download stats
+            Stats = await HContext.DiversityStats
+                .Where(o => o.CompanyId == Id)
+                .ToListAsync();
+            // chart stuff
+            await JSRuntime.InvokeVoidAsync("initCharts", Stats, ethnicityColors);
+            StateHasChanged();
+        }
     }
 
     public void UpdateSalaryInformation()
