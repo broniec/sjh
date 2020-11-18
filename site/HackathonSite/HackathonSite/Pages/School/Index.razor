@@ -31,16 +31,16 @@
 
     <div class="h-carousel slider">
         <div style="width: 150px; height: 100px;">
-            <img src="https://i.ibb.co/PcBBqdB/Diversity-Score2.png" style="height: 100%; width: 100%;" />
+            <img src="https://i.ibb.co/RDHQtwb/Carousel-Diversity-Scores.png" style="height: 100%; width: 100%;" />
         </div>
         <div style="width: 150px; height: 100px;">
-            <img src="https://i.ibb.co/GCYQb8N/ERGS.png" style="height: 100%; width: 100%;" />
+            <img src="https://i.ibb.co/jMLPdPF/Carousel-Student-Orgs.png" style="height: 100%; width: 100%;" />
         </div>
         <div style="width: 150px; height: 100px;">
-            <img src="https://i.ibb.co/CHtGS84/D-I-Events2.png" style="height: 100%; width: 100%;" />
+            <img src="https://i.ibb.co/pwnfgBt/Carousel-DI-Events.png" style="height: 100%; width: 100%;" />
         </div>
         <div style="width: 150px; height: 100px;">
-            <img src="https://i.ibb.co/9t5547m/salaries2.png" style="height: 100%; width: 100%;" />
+            <img src="https://i.ibb.co/84B56kc/Carousel-Tution.png" style="height: 100%; width: 100%;" />
         </div>
     </div>
 
@@ -179,8 +179,40 @@
             </p>
         </div>
         <div class="row">
-            <div class="col-6 offset-2">
-
+            <div class="col-6 offset-3">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th colspan="3">
+                                Average Tuition By Income Level*
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Income Level</th>
+                            <th style="text-align: left;">Average Assistance</th>
+                            <th style="text-align:align: left;">Average Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (TuitionStats != null)
+                        {
+                            @foreach (var stat in TuitionStats)
+                            {
+                                <tr>
+                                    <td>
+                                        @stat.Text
+                                    </td>
+                                    <td>
+                                        @stat.AverageAssistance
+                                    </td>
+                                    <td>
+                                        @stat.AverageCost
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -272,6 +304,7 @@
             // download tuition
             TuitionStats = await HContext.TuitionStats
                 .Where(o => o.CompanyId == 2 + Id)
+                .OrderBy(o => o.Ordinal)
                 .ToListAsync();
             // download stats
             Stats = await HContext.DiversityStats
