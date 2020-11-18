@@ -16,7 +16,7 @@
         </li>
         <li class="nav-item px-3">
             <NavLink class="nav-link" id="link-erg">
-                <span class="oi oi-people" aria-hidden="true"></span> ERGs
+                <span class="oi oi-people" aria-hidden="true"></span> @GroupText
             </NavLink>
         </li>
         <li class="nav-item px-3">
@@ -33,6 +33,21 @@
 </div>
 
 @code {
+    [Parameter]
+    public bool IsSchool { get; set; }
+
+    public string GroupText { get; set; } = "ERGs";
+    public string MoneyText { get; set; } = "Salaries";
+
+    protected override void OnInitialized()
+    {
+        if (IsSchool)
+        {
+            GroupText = "Student Orgs";
+            MoneyText = "Tuition";
+        }
+    }
+
     private bool collapseNavMenu = true;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
