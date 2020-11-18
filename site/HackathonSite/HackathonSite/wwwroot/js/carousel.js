@@ -67,6 +67,13 @@ function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
 }
 
+let groupBy = function (xs, key) {
+    return xs.reduce(function (rv, x) {
+        (rv[x[key]] = rv[x[key]] || []).push(x);
+        return rv;
+    }, {});
+};
+
 function initCharts(data, ethnicityColors) {
     const ethnicGroups = data.filter(x => x.group !== "Men" && x.group !== "Women").map(x => x.group).filter(onlyUnique);   
     const genderLabels = ['Male', 'Female'];
@@ -127,7 +134,7 @@ function initCharts(data, ethnicityColors) {
         options: lineGraphOptions
     });
     // Current Year Ethnicity
-    const currentYearEthnicGroups = data.filter(x => x.group !== "Men" && x.group !== "Women" && x.year === 2019).map(x => x.percentage);
+    const currentYearEthnicGroups = data.filter(x => x.group !== 'Men' && x.group !== 'Women' && x.year === 2019).map(x => x.percentage);
     const data3 = {
         datasets: [{
             data: currentYearEthnicGroups,
@@ -142,15 +149,22 @@ function initCharts(data, ethnicityColors) {
         options: standardOptions
     });
     // Historic Ethnicity
+    const historicEthnicityAmountTemp = data.filter(x => x.group !== 'Men' && x.group !== 'Women');
+    const historicEthnicityAmountGrouped = groupBy(historicEthnicityAmountTemp, 'group')
+    const historicEthnicityAmountFormatted = [];
+
+    for (let x in historicEthnicityAmountGrouped) {
+        historicEthnicityAmountFormatted.push({
+            data: historicEthnicityAmountGrouped[x].map(y => y.percentage),
+            borderColor: 'rgb(255, 255, 0)',
+            fill: false,
+            label: x
+        });
+    }
+
     const data4 = {
-        datasets: [{
-            data: [10, 20],
-            backgroundColor: [
-                'rgb(232, 237, 223)',
-                'rgb(42, 61, 69)'
-            ]
-        }],
-        labels: ethnicGroups
+        datasets: historicEthnicityAmountFormatted,
+        labels: yearLabels
     };
     const ctx4 = document.getElementById('historicEthnicityBreakdown').getContext('2d');
     new Chart(ctx4, {
