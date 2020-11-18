@@ -77,7 +77,8 @@ let groupBy = function (xs, key) {
 function initCharts(data, ethnicityColors) {
     const ethnicGroups = data.filter(x => x.group !== "Men" && x.group !== "Women").map(x => x.group).filter(onlyUnique);   
     const genderLabels = ['Male', 'Female'];
-    const yearLabels = data.map(x => x.year).filter(onlyUnique).sort();
+    const genderYearLabels = data.filter(x => x.group === "Women").map(x => x.year).filter(onlyUnique).sort();
+    const ethnicityYearLabels = data.filter(x => x.group !== "Men" && x.group !== "Women").map(x => x.year).filter(onlyUnique).sort();
     const standardOptions = {
         legend: {
             display: false
@@ -125,7 +126,7 @@ function initCharts(data, ethnicityColors) {
             fill: false,
             label: 'Women'
         }],
-        labels: yearLabels
+        labels: genderYearLabels
     };
     const ctx2 = document.getElementById('historicGenderBreakdown').getContext('2d');
     new Chart(ctx2, {
@@ -134,7 +135,8 @@ function initCharts(data, ethnicityColors) {
         options: lineGraphOptions
     });
     // Current Year Ethnicity
-    const currentYearEthnicGroups = data.filter(x => x.group !== 'Men' && x.group !== 'Women' && x.year === 2019).map(x => x.percentage);
+    const maxYear = ethnicityYearLabels[ethnicityYearLabels.length - 1];
+    const currentYearEthnicGroups = data.filter(x => x.group !== 'Men' && x.group !== 'Women' && x.year === maxYear).map(x => x.percentage);
     const data3 = {
         datasets: [{
             data: currentYearEthnicGroups,
@@ -166,7 +168,7 @@ function initCharts(data, ethnicityColors) {
 
     const data4 = {
         datasets: historicEthnicityAmountFormatted,
-        labels: yearLabels
+        labels: ethnicityYearLabels
     };
     const ctx4 = document.getElementById('historicEthnicityBreakdown').getContext('2d');
     new Chart(ctx4, {

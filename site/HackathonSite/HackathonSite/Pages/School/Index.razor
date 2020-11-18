@@ -76,11 +76,11 @@
                 <p style="font-weight: bold; font-size: 100px;">@School.GenderScore</p>
             </div>
             <div class="col-3">
-                <h5 style="font-weight: bold;">Gender Breakdown (2017)</h5>
+                <h5 style="font-weight: bold;">Gender Breakdown (2019)</h5>
                 <canvas id="currentYearGenderBreakdown" style="width: 100%; height: 160px;"></canvas>
             </div>
             <div class="col-3">
-                <h5 style="font-weight: bold;">Gender Breakdown (2015 - 2017)</h5>
+                <h5 style="font-weight: bold;">Gender Breakdown (2017 - 2019)</h5>
                 <canvas id="historicGenderBreakdown" style="width: 100%; height: 160px;"></canvas>
             </div>
             <div class="col-3">
@@ -112,7 +112,7 @@
                 <p style="font-weight: bold; font-size: 100px;">@School.EthnicityScore</p>
             </div>
             <div class="col-3">
-                <h5 style="font-weight: bold;">Race / Ethnicity Breakdown (2015)</h5>
+                <h5 style="font-weight: bold;">Race / Ethnicity Breakdown (2017)</h5>
                 <canvas id="currentYearEthnicityBreakdown" style="width: 100%; height: 160px;"></canvas>
             </div>
             <div class="col-3">
@@ -246,7 +246,7 @@
             FirstPass = false;
             // download stats
             Stats = await HContext.DiversityStats
-                .Where(o => o.CompanyId == -1 * Id)
+                .Where(o => o.CompanyId == 2 + Id)
                 .ToListAsync();
             // chart stuff
             await JSRuntime.InvokeVoidAsync("initCharts", Stats, ethnicityColors);
