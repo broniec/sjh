@@ -428,6 +428,8 @@
         await JSRuntime.InvokeVoidAsync("cacheReference", dotNetReference);
         await JSRuntime.InvokeVoidAsync("initCarousel");
 
+        counter = 0;
+
         if (FirstPass)
         {
             FirstPass = false;
