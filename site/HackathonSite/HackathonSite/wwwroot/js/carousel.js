@@ -191,6 +191,6 @@ function openCompany() {
 function openSchool() {
     const newValue = document.getElementById("schoolSelect").value;
     if (newValue && !isNaN(newValue)) {
-        window.location = '/company/' + newValue;
+        window.location = '/school/' + newValue;
     }
 }
