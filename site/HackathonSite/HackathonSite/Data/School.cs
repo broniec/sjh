@@ -19,5 +19,8 @@
 
         // Student Groups Section
         public string StudentGroupText { get; set; }
+
+        public decimal InStateTuition { get; set; }
+        public decimal OutStateTuition { get; set; }
     }
 }

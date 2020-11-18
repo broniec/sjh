@@ -163,6 +163,26 @@
 
     <div hidden="@(!ShowTuitions)" style="background-color: #f5cb5c; min-height: calc(100% - 170px);">
         <br />
+        <div class="row">
+            <div class="col-6" style="text-align: center;">
+                <h5 style="font-weight: bold;">In-State Tuition</h5>
+                <p style="font-weight: bold; font-size: 60px;">$@School.InStateTuition.ToString("#,##0")*</p>
+            </div>
+            <div class="col-6" style="text-align: center;">
+                <h5 style="font-weight: bold;">Out of State Tuition</h5>
+                <p style="font-weight: bold; font-size: 60px;">$@School.OutStateTuition.ToString("#,##0")*</p>
+            </div>
+        </div>
+        <div style="max-width: 60%; margin: auto;">
+            <p style="font-style: italic;">
+                *Tuition offers can vary by a number of factors. These averges are provided by the schools, but should not be seen as fixed prices.
+            </p>
+        </div>
+        <div class="row">
+            <div class="col-6 offset-2">
+
+            </div>
+        </div>
     </div>
 </div>
 
@@ -181,6 +201,7 @@
 
     public School School { get; set; }
     public List<DiversityStat> Stats { get; set; }
+    public List<TuitionStat> TuitionStats { get; set; }
 
     private bool FirstPass = true;
 
@@ -204,6 +225,8 @@
                 //CalendarLink = "51knhc057dqa5e9urjbto6b8t4",
                 CalendarLink = "69430fd7-3173-4280-bc37-a54ad21f058c/cid-872D38727EAF682A",
                 GenderScore = "93%",
+                InStateTuition = 15558,
+                OutStateTuition = 51200,
                 EthnicityScore = "73%",
                 DiversityText = "This page contains some diversity metrics at University of Michigan. Click the link to the right for a comprehensive list of our diversity objectives.",
                 DiversityReportLink = "https://diversity.umich.edu/strategic-plan/",
@@ -224,6 +247,8 @@
                 //CalendarLink = "fe2gdontdjfi5018rm40kf8h3o",
                 CalendarLink = "13ba2870-3003-4472-a836-020b270376a7/cid-872D38727EAF682A",
                 GenderScore = "33%",
+                InStateTuition = 27206,
+                OutStateTuition = 27206,
                 EthnicityScore = "20%",
                 DiversityText = "Our students come from all over the United States and the world with myriad cultural backgrounds, gender expressions, and abilities. The Division of Student Affairs supports, celebrates, and embraces its students' differences. We would not be the multifaceted community we are without the unique experiences and perspectives of our students.",
                 DiversityReportLink = "https://studentaffairs.howard.edu/diversity-inclusion",
@@ -244,6 +269,10 @@
         if (FirstPass)
         {
             FirstPass = false;
+            // download tuition
+            TuitionStats = await HContext.TuitionStats
+                .Where(o => o.CompanyId == 2 + Id)
+                .ToListAsync();
             // download stats
             Stats = await HContext.DiversityStats
                 .Where(o => o.CompanyId == 2 + Id)
