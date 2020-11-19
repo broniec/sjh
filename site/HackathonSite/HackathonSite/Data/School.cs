@@ -22,5 +22,9 @@
 
         public decimal InStateTuition { get; set; }
         public decimal OutStateTuition { get; set; }
+
+        public string SuggestedScholarshipTitle { get; set; }
+        public string SuggestedScholarshipText { get; set; }
+        public string SuggestedScholarshipLink { get; set; }
     }
 }
